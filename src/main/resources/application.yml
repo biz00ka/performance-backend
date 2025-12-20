@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: performance-sut
+    name: performance-backend
   datasource:
     url: jdbc:postgresql://localhost:5432/sut_db
     username: sut_user

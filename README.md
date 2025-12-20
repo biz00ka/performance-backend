@@ -1,4 +1,4 @@
-# Performance SUT (System Under Test)
+# Performance Backend
 
 This project is a Spring Boot application acting as a System Under Test for performance testing. It simulates a user management system with orders.
 
@@ -10,11 +10,24 @@ This project is a Spring Boot application acting as a System Under Test for perf
 
 ## Running the Application
 
-### Option 1: Docker Compose (Recommended)
-This starts both the application and a Postgres database.
+### Option 1: Docker Database + Local Spring Boot (Recommended)
+This starts the Postgres database in Docker and the application locally.
 
+**Commands in sequence:**
+
+1. Start the database:
 ```bash
 docker-compose up -d
+```
+
+2. Start the application (open a new terminal):
+```bash
+./mvnw spring-boot:run -DskipTests
+```
+
+3. Verify the application:
+```bash
+curl -v http://localhost:8081/api/users/1
 ```
 
 ### Option 2: Local with H2 (In-Memory DB)
