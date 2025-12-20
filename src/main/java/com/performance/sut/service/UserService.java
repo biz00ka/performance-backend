@@ -8,6 +8,8 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -17,23 +19,26 @@ public class UserService {
     private final SimulationService simulationService;
 
     @Transactional(readOnly = true)
+    @NonNull
     public User getUser(@NonNull Long id) {
         log.info("Fetching user with id: {}", id);
         // Simulate read latency
         simulationService.simulateLatency();
-        return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+        return Objects.requireNonNull(userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id)));
     }
 
     @Transactional
+    @NonNull
     public User createUser(String name, String email) {
         log.info("Creating user with email: {}", email);
         simulationService.simulateLatency();
         User user = new User(name, email);
-        return userRepository.save(user);
+        return Objects.requireNonNull(userRepository.save(user));
     }
 
     @Transactional
+    @NonNull
     public User updateUser(@NonNull Long id, String name, String email) {
         log.info("Updating user with id: {}", id);
         simulationService.simulateLatency();
@@ -42,7 +47,7 @@ public class UserService {
             user.setName(name);
         if (email != null)
             user.setEmail(email);
-        return userRepository.save(user);
+        return Objects.requireNonNull(userRepository.save(user));
     }
 
     @Transactional
