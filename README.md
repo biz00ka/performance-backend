@@ -66,6 +66,29 @@ curl -v http://localhost:8081/api/users/1
 }
 ```
 
+### User Management (CRUD)
+
+Follow these commands to manage custom users:
+
+**Create a new user:**
+```bash
+curl -X POST http://localhost:8081/api/users \
+     -H "Content-Type: application/json" \
+     -d '{"name": "John Doe", "email": "john@example.com"}'
+```
+
+**Update an existing user:**
+```bash
+curl -X PUT http://localhost:8081/api/users/1 \
+     -H "Content-Type: application/json" \
+     -d '{"name": "John Updated", "email": "john.updated@example.com"}'
+```
+
+**Delete a user:**
+```bash
+curl -X DELETE http://localhost:8081/api/users/1
+```
+
 ## Stopping the Application
 
 ### Graceful Shutdown

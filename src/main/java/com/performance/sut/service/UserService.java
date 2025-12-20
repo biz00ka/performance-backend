@@ -24,4 +24,32 @@ public class UserService {
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
     }
+
+    @Transactional
+    public User createUser(String name, String email) {
+        log.info("Creating user with email: {}", email);
+        simulationService.simulateLatency();
+        User user = new User(name, email);
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public User updateUser(@NonNull Long id, String name, String email) {
+        log.info("Updating user with id: {}", id);
+        simulationService.simulateLatency();
+        User user = getUser(id);
+        if (name != null)
+            user.setName(name);
+        if (email != null)
+            user.setEmail(email);
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public void deleteUser(@NonNull Long id) {
+        log.info("Deleting user with id: {}", id);
+        simulationService.simulateLatency();
+        User user = getUser(id);
+        userRepository.delete(user);
+    }
 }
