@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: performance-sut
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sut_db
+    username: sut_user
+    password: sut_password
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        generate_statistics: true
+    open-in-view: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+
+app:
+  simulation:
+    latency-min-ms: 20
+    latency-max-ms: 300
+    enabled: true
+  seeder:
+    enabled: true
+    users: 50
+    orders-per-user: 10

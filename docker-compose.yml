@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: performance-sut-db
+    environment:
+      POSTGRES_DB: sut_db
+      POSTGRES_USER: sut_user
+      POSTGRES_PASSWORD: sut_password
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
