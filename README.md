@@ -15,17 +15,22 @@ This starts the Postgres database in Docker and the application locally.
 
 **Commands in sequence:**
 
-1. Start the database:
+1. Navigate to the project directory:
+```bash
+cd performance-backend
+```
+
+2. Start the database:
 ```bash
 docker-compose up -d
 ```
 
-2. Start the application (open a new terminal):
+3. Start the application (open a new terminal):
 ```bash
 ./mvnw spring-boot:run -DskipTests
 ```
 
-3. Verify the application:
+4. Verify the application:
 ```bash
 curl -v http://localhost:8081/api/users/1
 ```
@@ -61,7 +66,40 @@ curl -v http://localhost:8081/api/users/1
 }
 ```
 
+## Stopping the Application
+
+### Graceful Shutdown
+
+1. **Spring Boot App**: If running in a terminal, press `Ctrl+C` to stop it gracefully. **This will release port 8081.**
+
+2. **Database (Docker)**:
+To stop and remove the database container (and release port 5432):
+```bash
+docker-compose down
+```
+
 ## Monitoring / Actuator
 The application exposes Actuator endpoints for monitoring:
 - Health: `http://localhost:8081/actuator/health`
 - Prometheus Metrics: `http://localhost:8081/actuator/prometheus`
+
+## Troubleshooting
+
+### Port 8081 already in use
+
+If you see an error that the port is already in use, you can find and kill the process occupying it:
+
+1. Check what is using the port:
+```bash
+lsof -i :8081
+```
+
+2. Kill the process (replace `<PID>` with the Process ID from the previous command):
+```bash
+kill -9 <PID>
+```
+
+Or run this one-liner to kill it immediately:
+```bash
+lsof -ti:8081 | xargs kill -9
+```
