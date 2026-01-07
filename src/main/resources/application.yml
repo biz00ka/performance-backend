@@ -32,6 +32,13 @@ management:
           server:
             requests: true
 
+logging:
+  level:
+    root: INFO
+    org.hibernate.SQL: OFF
+    org.hibernate.engine.jdbc.spi.SqlExceptionHelper: ERROR
+    org.springframework.web: WARN
+
 app:
   simulation:
     latency-min-ms: 20

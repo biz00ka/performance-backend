@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <!-- Standard Console Logging for Local Development -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <!-- You can easily switch to JSON logging here if needed for AWS CloudWatch -->
+    <!-- For now, we'll keep it standard for readability, but with the requested logic -->
+</configuration>
