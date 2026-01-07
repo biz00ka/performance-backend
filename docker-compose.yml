@@ -14,5 +14,27 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  app:
+    build: .
+    container_name: performance-backend
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/sut_db
+      SPRING_DATASOURCE_USERNAME: sut_user
+      SPRING_DATASOURCE_PASSWORD: sut_password
+    depends_on:
+      - db
+    restart: always
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    restart: always
+
 volumes:
   postgres_data:

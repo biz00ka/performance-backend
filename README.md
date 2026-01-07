@@ -10,37 +10,34 @@ This project is a Spring Boot application acting as a System Under Test for perf
 
 ## Running the Application
 
-### Option 1: Docker Database + Local Spring Boot (Recommended)
-This starts the Postgres database in Docker and the application locally.
-
-**Commands in sequence:**
-
-1. Navigate to the project directory:
-```bash
-cd performance-backend
-```
-
-2. Start the database:
-```bash
-docker-compose up -d
-```
-
-3. Start the application (open a new terminal):
-```bash
-./mvnw spring-boot:run -DskipTests
-```
-
-4. Verify the application:
-```bash
-curl -v http://localhost:8081/api/users/1
-```
-
-### Option 2: Local with H2 (In-Memory DB)
-Useful for quick testing without external dependencies. The application will use an in-memory H2 database.
+### Option 1: Full Stack in Docker (Recommended for Demo)
+This starts the App, Postgres, and Prometheus UI. This is exactly how it will run on AWS.
 
 ```bash
-./mvnw spring-boot:run -Dspring-boot.run.arguments="--spring.datasource.url=jdbc:h2:mem:sut_db --spring.datasource.driver-class-name=org.h2.Driver --spring.jpa.database-platform=org.hibernate.dialect.H2Dialect --spring.datasource.username=sa --spring.datasource.password="
+docker-compose up -d --build
 ```
+- **App API**: `http://localhost:8081`
+- **Prometheus UI**: `http://localhost:9090`
+- **Postgres**: `localhost:5432`
+
+### Option 2: Database Only + Local Spring Boot (Recommended for Development)
+If you want to run the application in your IDE or via terminal while developing.
+
+1. Start only the database:
+   ```bash
+   docker-compose up -d db
+   ```
+
+2. Start the application locally:
+   ```bash
+   ./mvnw spring-boot:run -DskipTests
+   ```
+
+3. (Optional) Start Prometheus to monitor your local app:
+   ```bash
+   docker-compose up -d prometheus
+   ```
+
 
 ## Verification
 
@@ -91,14 +88,22 @@ curl -X DELETE http://localhost:8081/api/users/1
 
 ## Stopping the Application
 
-### Graceful Shutdown
+### Graceful Shutdown (Docker Compose)
 
-1. **Spring Boot App**: If running in a terminal, press `Ctrl+C` to stop it gracefully. **This will release port 8081.**
+To stop the entire stack (App, DB, Prometheus) and release all ports (`8081`, `5432`, `9090`):
 
-2. **Database (Docker)**:
-To stop and remove the database container (and release port 5432):
 ```bash
 docker-compose down
+```
+
+> [!NOTE]
+> This will stop and remove the containers but **preserve your data** in the `postgres_data` volume. If you want to completely wipe everything including data, use `docker-compose down -v`.
+
+### Local Process Cleanup (Manual)
+
+If you ran the app locally (Option 2) and need to kill the process manually:
+```bash
+lsof -ti:8081 | xargs kill -9
 ```
 
 ## Monitoring / Actuator

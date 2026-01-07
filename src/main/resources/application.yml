@@ -5,9 +5,9 @@ spring:
   application:
     name: performance-backend
   datasource:
-    url: jdbc:postgresql://localhost:5432/sut_db
-    username: sut_user
-    password: sut_password
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/sut_db}
+    username: ${SPRING_DATASOURCE_USERNAME:sut_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:sut_password}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 20
