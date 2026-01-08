@@ -23,7 +23,7 @@ services:
       options:
         awslogs-region: "${AWS_REGION:-ap-south-1}"
         awslogs-group: "performance-backend-logs"
-        awslogs-stream: "{{.Name}}/{{.ID}}"
+        awslogs-stream: "db"
         awslogs-create-group: "true"
 
   app:
@@ -49,7 +49,7 @@ services:
       options:
         awslogs-region: "${AWS_REGION:-ap-south-1}"
         awslogs-group: "performance-backend-logs"
-        awslogs-stream: "{{.Name}}/{{.ID}}"
+        awslogs-stream: "app"
         awslogs-create-group: "true"
 
   prometheus:
@@ -68,7 +68,7 @@ services:
       options:
         awslogs-region: "${AWS_REGION:-ap-south-1}"
         awslogs-group: "performance-backend-logs"
-        awslogs-stream: "{{.Name}}/{{.ID}}"
+        awslogs-stream: "prometheus"
         awslogs-create-group: "true"
 
 volumes:
