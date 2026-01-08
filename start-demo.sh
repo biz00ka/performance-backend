@@ -2,7 +2,7 @@
 
 # Configuration
 INSTANCE_ID="i-xxxxxxxxxxxxxxxxx" # Replace with your EC2 Instance ID
-REGION="us-east-1"               # Replace with your AWS Region
+REGION="ap-south-1"               # Replace with your AWS Region
 
 # Check if AWS CLI is installed
 if ! command -v aws &> /dev/null

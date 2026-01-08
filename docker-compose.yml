@@ -19,10 +19,12 @@ services:
       timeout: 5s
       retries: 5
     logging:
-      driver: "json-file"
+      driver: "awslogs"
       options:
-        max-size: "30m"
-        max-file: "6"
+        awslogs-region: "${AWS_REGION:-ap-south-1}"
+        awslogs-group: "performance-backend-logs"
+        awslogs-stream: "db"
+        awslogs-create-group: "true"
 
   app:
     build: .
@@ -43,10 +45,12 @@ services:
       timeout: 5s
       retries: 5
     logging:
-      driver: "json-file"
+      driver: "awslogs"
       options:
-        max-size: "30m"
-        max-file: "6"
+        awslogs-region: "${AWS_REGION:-ap-south-1}"
+        awslogs-group: "performance-backend-logs"
+        awslogs-stream: "app"
+        awslogs-create-group: "true"
 
   prometheus:
     image: prom/prometheus:latest
@@ -60,10 +64,12 @@ services:
         condition: service_healthy
     restart: always
     logging:
-      driver: "json-file"
+      driver: "awslogs"
       options:
-        max-size: "30m"
-        max-file: "6"
+        awslogs-region: "${AWS_REGION:-us-east-1}"
+        awslogs-group: "performance-backend-logs"
+        awslogs-stream: "prometheus"
+        awslogs-create-group: "true"
 
 volumes:
   postgres_data:

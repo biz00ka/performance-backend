@@ -24,7 +24,26 @@ We will use a single EC2 instance to run both the database and the application i
     - **Add Rule**: Custom TCP, Port `8081` (for the API).
     - **Add Rule**: Custom TCP, Port `9090` (for Prometheus UI).
 8.  **Launch Instance**.
+9.  **Important**: Keep note of your **Region** (e.g., `ap-south-1`) and **Instance ID**.
 
+---
+
+## Step 1.5: Configure IAM Permissions for Logging
+
+To allow your EC2 instance to send logs to AWS CloudWatch, you must attach an IAM Role with the correct permissions.
+
+1.  Go to the [IAM Console](https://console.aws.amazon.com/iam/).
+2.  **Create Role**:
+    - Select **AWS service**.
+    - Common use case: **EC2**.
+3.  **Permissions Policy**: Search for and attach `CloudWatchAgentServerPolicy` (this includes more than needed, but is safe and standard).
+    - Alternatively, create a custom policy with: `logs:CreateLogGroup`, `logs:CreateLogStream`, `logs:PutLogEvents`, `logs:DescribeLogStreams`.
+4.  **Role Name**: `EC2CloudWatchLogsRole`.
+5.  **Attach to EC2**:
+    - Go back to the **EC2 Console**.
+    - Select your instance (`performance-sut-demo`).
+    - Click **Actions** -> **Security** -> **Modify IAM role**.
+    - Select `EC2CloudWatchLogsRole` and click **Update IAM role**.
 
 ---
 
